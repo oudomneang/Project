@@ -7,6 +7,7 @@
         <router-link to="/menu">{{ t('menu') }}</router-link>
         <router-link to="/about">{{ t('about') }}</router-link>
         <router-link to="/contact">{{ t('contact') }}</router-link>
+        <router-link to="/register">{{ t('register') }}</router-link>
       </div>
       <p class="footer-copy">© 2026 | Made with ❤️ in Cambodia <br> by Neang Oudom</p>
     </div>
