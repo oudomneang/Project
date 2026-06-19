@@ -25,15 +25,13 @@
     <section id="quick-menu" class="section">
       <h2 class="section-title">{{ t('featuredMenu') }}</h2>
       <div class="menu-preview">
-        <div v-for="product in featuredProducts" :key="product.id" class="menu-item">
-          <div class="menu-item-img-wrapper">
-            <img :src="product.image" :alt="product.name" loading="lazy" />
-            <span v-if="product.badge" class="badge">{{ product.badge }}</span>
-          </div>
-          <h3>{{ product.name }}</h3>
-          <p class="price">{{ product.price }} ៛</p>
-          <button class="add-to-cart-btn">{{ t('addToCart') }}</button>
-        </div>
+        <ProductCard
+          v-for="product in featuredProducts"
+          :key="product.id"
+          class="menu-item"
+          :product="product"
+          @add-to-cart="addToCart"
+        />
       </div>
       <router-link to="/menu" class="view-all-btn">{{ t('viewAll') }}</router-link>
     </section>
@@ -73,15 +71,16 @@
 
 <script setup>
 import { useTranslation } from '../composables/useTranslation'
+import ProductCard from '../components/ProductCard.vue'
+import { featuredProducts } from '../data/products'
+import { useCartStore } from '../stores'
 
 const { t } = useTranslation()
+const cartStore = useCartStore()
 
-const featuredProducts = [
-  { id: 1, name: 'បាយក្ដាំងបំពងគ្រឿង', price: 7000, image: '/src/assets/photo_2025-08-18_11-40-55.jpg', badge: 'Best Seller' },
-  { id: 2, name: 'បាញ់ត្រាងគ្រឿង', price: 7000, image: '/src/assets/បគ្រឿង.jpg' },
-  { id: 3, name: 'បាញ់ត្រាងសារាយ', price: 7000, image: '/src/assets/សារាយ.jpg' },
-  { id: 4, name: 'បាញ់ត្រាងទឹកដោះ', price: 7000, image: '/src/assets/បទឹកដោះ.jpg' }
-]
+function addToCart(product) {
+  cartStore.addToCart(product)
+}
 </script>
 
 <style scoped>

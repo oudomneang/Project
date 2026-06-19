@@ -1,8 +1,8 @@
 <template>
   <div class="product-card">
     <div class="ribbon" v-if="product.badge">{{ product.badge }}</div>
-    <img :src="product.image" :alt="product.name" loading="lazy" />
-    <h3>{{ product.name }}</h3>
+    <img :src="product.image" :alt="productName" loading="lazy" />
+    <h3>{{ productName }}</h3>
     <p class="price">{{ product.price }} ៛</p>
     <button @click="showOptions = true" class="add-btn">
       {{ t('addToCart') }}
@@ -42,7 +42,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useLanguageStore } from '../stores'
 import { useTranslation } from '../composables/useTranslation'
 
 const props = defineProps({
@@ -55,6 +56,9 @@ const props = defineProps({
 const emit = defineEmits(['add-to-cart'])
 
 const { t } = useTranslation()
+const languageStore = useLanguageStore()
+
+const productName = computed(() => languageStore.currentLang === 'en' && props.product.nameEn ? props.product.nameEn : props.product.nameKm || props.product.name)
 
 const showOptions = ref(false)
 const selectedSpice = ref('ស្រួយ')

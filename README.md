@@ -1,5 +1,3 @@
-# project1
-<<<<<<< HEAD
 # BayKdang
-=======
->>>>>>> 5f4e352cec883031f4c1bc828459bf6ac5b212f1
+
+Bay Kdang Brand Mak Oundy is a Vue 3 food ordering website with menu, cart, contact, and registration pages.
