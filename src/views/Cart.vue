@@ -47,12 +47,42 @@
       </div>
     </section>
   </div>
+  <div
+  v-if="showQrModal"
+  class="modal-overlay"
+  @click="closeModal"
+>
+  <div
+    class="modal-content"
+    @click.stop
+  >
+    <button class="close-btn" @click="closeModal">
+      ✕
+    </button>
+
+    <h3>ស្កេន QR Code ដើម្បីទូទាត់</h3>
+
+  <img
+  src="/aba.jpg"
+  alt="QR Payment"
+  class="qr-image"
+/>
+
+<div class="payment-total">
+  <p>សរុបទឹកប្រាក់</p>
+  <h2>{{ formatPrice(totalPrice) }} ៛</h2>
+  <p>សូមផ្ទេរចំនួនទឹកប្រាក់នេះតាម QR Code ខាងលើ</p>
+</div>
+  </div>
+</div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCartStore } from '../stores'
 import { useTranslation } from '../composables/useTranslation'
+
 
 const cartStore = useCartStore()
 const { items, totalPrice } = storeToRefs(cartStore)
@@ -80,8 +110,14 @@ function clearCart() {
   cartStore.clearCart()
 }
 
+const showQrModal = ref(false)
+
 function checkout() {
-  window.open('https://t.me/Oudom_Neang', '_blank')
+  showQrModal.value = true
+}
+
+function closeModal() {
+  showQrModal.value = false
 }
 </script>
 
@@ -251,5 +287,54 @@ function checkout() {
   .cart-container {
     grid-template-columns: 1fr;
   }
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  position: relative;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.qr-image {
+  width: 100%;
+  max-width: 300px;
+}
+
+.close-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  border: none;
+  background: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+.payment-total {
+  margin-top: 15px;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.payment-total strong {
+  display: block;
+  margin-top: 5px;
+  color: #ff6600;
+  font-size: 1.5rem;
 }
 </style>
